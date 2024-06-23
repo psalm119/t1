@@ -70,7 +70,8 @@
               "buildTarget": "t1:build:production"
             },
             "development": {
-              "buildTarget": "t1:build:development"
+              "buildTarget": "t1:build:development",
+              "port": 47773
             }
           },
           "defaultConfiguration": "development"
