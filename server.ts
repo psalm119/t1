@@ -4,6 +4,10 @@ import express from 'express';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'node:path';
 import bootstrap from './src/main.server';
+import * as dotenv from 'dotenv';
+import { DatabaseService } from './src/app/database.service';
+
+dotenv.config({ path: '.env.development.local' }); // Load environment variables
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
@@ -11,7 +15,6 @@ export function app(): express.Express {
   const serverDistFolder = dirname(fileURLToPath(import.meta.url));
   const browserDistFolder = resolve(serverDistFolder, '../browser');
   const indexHtml = join(serverDistFolder, 'index.server.html');
-
   const commonEngine = new CommonEngine();
 
   server.set('view engine', 'html');
@@ -38,6 +41,21 @@ export function app(): express.Express {
       })
       .then((html) => res.send(html))
       .catch((err) => next(err));
+  });
+
+
+  // Initialize the database service
+  const databaseService = new DatabaseService();
+
+  // Example API endpoint to fetch data
+  server.get('/api/tbl1', async (req, res) => {
+    try {
+      const data = await databaseService.getAllFromTbl1();
+      res.json(data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      res.status(500).send('Internal Server Error');
+    }
   });
 
   return server;
