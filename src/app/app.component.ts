@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { DatabaseService } from './database.service';
+// import { DatabaseService } from './database.service';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +15,8 @@ export class AppComponent {
   title = 't1';
   tbl1Data: any[] | undefined;
 
-  constructor(private http: HttpClient, private databaseService: DatabaseService) { }
+  // constructor(private http: HttpClient, private databaseService: DatabaseService) { }
+  constructor(private http: HttpClient) { }
 
   // ngOnInit() {
   //   console.log('AppComponent ngOnInit');
@@ -29,8 +30,8 @@ export class AppComponent {
   // }
   async ngOnInit() {
     try {
-      this.tbl1Data = await this.databaseService.query('SELECT * FROM tbl1');
-      console.log('Data from database:', this.tbl1Data);
+      // this.tbl1Data = await this.databaseService.query('SELECT * FROM tbl1');
+      // console.log('Data from database:', this.tbl1Data);
     } catch (err) {
       console.error('Error fetching data:', err);
     }
